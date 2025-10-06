@@ -4,20 +4,53 @@ A web application that creates professional lyric videos with automatic scrollin
 
 ## Features
 
+### Core Features
 - **Auto-Scroll Calculation**: Automatically calculates scroll speed to finish exactly when the song ends
+- **Smooth Scrolling**: Sub-pixel rendering with interpolation for buttery-smooth 60fps scrolling
 - **File Upload**: Support for MP3, WAV, M4A audio files and custom background images
-- **Live Preview**: Real-time preview with canvas rendering and smooth scrolling
-- **Customizable Styling**:
-  - Multiple fonts and sizes
-  - Text colors and shadows
-  - Background effects (blur, brightness)
-  - Vertical positioning options
+- **Live Preview**: Real-time canvas preview with smooth rendering
+
+### Video Export
+- **MP4 Export**: YouTube-ready MP4 videos (H.264 + AAC)
+- **Quality Presets**:
+  - **Fast**: 720p @ 24fps (~2-3 min render time) - Recommended
+  - **Balanced**: 720p @ 30fps (~3-4 min render time)
+  - **Quality**: 1080p @ 30fps (~4-6 min render time)
+  - **Max Quality**: 1080p @ 60fps (~6-10 min render time)
+- **Optimized Encoding**: Uses FFmpeg with fast presets for quick exports
+
+### Styling & Customization
+- **Song Title**: Display title in any corner (top/bottom, left/right)
+- **Font Controls**: Multiple fonts, sizes, auto-size for longest line
+- **Colors**: Text color, background color with opacity
+- **Effects**: Text shadows, background blur, brightness adjustment
+- **Alignment**: Left, center, or right text alignment
+- **Positioning**: Top, center, or bottom vertical positioning
+
+### Lyrics Management
+- **Smart Lyrics Cleaner**: Automatically detects and removes:
+  - Song titles and metadata
+  - Section headers (Verse, Chorus, etc.)
+  - Separators and empty lines
+  - Configurable filters with preview
+- **Lyrics Editor**:
+  - Live line tracking (current line, character count)
+  - Longest line detection
+  - Full-screen viewer overlay
+  - Auto-scroll to highlighted lines
+
+### Advanced Features
+- **Instrumental Display**: Shows "INSTRUMENTAL" during start delay with 2-second fade-in
+- **Project Manager**: Save/load complete projects as portable JSON files
+  - All settings preserved
+  - Audio and images embedded (Base64)
+  - Easy sharing and backup
+- **Auto-Size Font**: Automatically calculates optimal font size for longest line
 - **Scroll Controls**:
   - Speed modifier (50%-200%)
-  - Start delay
+  - Start delay (0-30 seconds)
   - End padding
   - Visible lines adjustment (3-10 lines)
-- **Video Export**: Export to high-quality WebM video (720p or 1080p at 30/60 FPS)
 
 ## Getting Started
 
@@ -37,15 +70,44 @@ npm run dev
 
 ### Usage
 
-1. **Upload Audio**: Click "Upload Audio File" and select your music file
-2. **Add Lyrics**: Either upload a .txt file or paste lyrics directly into the editor
-3. **Upload Background**: (Optional) Add a background image for your video
-4. **Adjust Settings**:
-   - Fine-tune scroll speed, delays, and visible lines
-   - Customize text styling (font, size, color, alignment)
-   - Adjust background effects
-5. **Preview**: Play the audio and watch the real-time preview
-6. **Export**: Choose resolution and frame rate, then click "Export Video"
+1. **Upload Files**:
+   - Upload your audio file (MP3, WAV, or M4A)
+   - Add lyrics (paste text or upload .txt file)
+   - (Optional) Upload a background image
+   - Enter song title
+
+2. **Clean Lyrics** (Optional):
+   - Click "🧹 Clean" button in lyrics editor
+   - Toggle filters to remove metadata, sections, separators
+   - Preview cleaned lyrics and apply
+
+3. **Customize Styling**:
+   - Use "Auto Size" to optimize font for longest line
+   - Adjust font family, size, color, and effects
+   - Position song title in desired corner
+   - Configure background blur and brightness
+
+4. **Fine-Tune Scrolling**:
+   - Set start delay for instrumental intro
+   - Adjust scroll speed modifier (50%-200%)
+   - Configure visible lines (3-10)
+   - Set end padding
+
+5. **Preview**:
+   - Play audio to see real-time scrolling preview
+   - Use "📖 View" to see all lyrics in full-screen overlay
+   - Make adjustments as needed
+
+6. **Export Video**:
+   - Choose quality preset (Fast recommended for most cases)
+   - Click "🎬 Export Video"
+   - Wait for rendering to complete (~2-10 min depending on preset)
+   - Video downloads as MP4, ready for YouTube upload
+
+7. **Save Project** (Optional):
+   - Click "Save Project" to download a .lvp.json file
+   - All settings, audio, and images are embedded
+   - Use "Load Project" to restore later
 
 ## How It Works
 
@@ -60,12 +122,12 @@ The lyrics scroll smoothly from bottom to top, showing approximately 5 lines at 
 
 ## Technology Stack
 
-- **React** - UI framework
-- **Vite** - Build tool
-- **Tailwind CSS** - Styling
-- **Canvas API** - Rendering
-- **MediaRecorder API** - Video export
-- **Web Audio API** - Audio processing
+- **React 18** - UI framework with hooks
+- **Vite 5** - Fast build tool with HMR
+- **Tailwind CSS 3** - Utility-first styling
+- **Canvas API** - High-performance 60fps rendering with sub-pixel positioning
+- **FFmpeg.wasm** - Browser-based MP4 video encoding (H.264 + AAC)
+- **Web Audio API** - Audio playback and timing
 
 ## Build for Production
 
@@ -81,27 +143,35 @@ The optimized files will be in the `dist` folder.
 npm run preview
 ```
 
-## Keyboard Shortcuts
+## Tips & Best Practices
 
-- **Space**: Play/Pause audio (when audio player is focused)
-- **Arrow Keys**: Seek through audio (when progress bar is focused)
+### For Best Results:
+- **Use "Fast" preset** (720p @ 24fps) for quick exports - perfect quality for YouTube lyrics videos
+- **Use high-resolution background images** (1920x1080 or larger) for best quality
+- **Enable text shadow** for better readability over complex backgrounds
+- **Use background blur** to make text stand out more
+- **Use "Auto Size"** button to automatically optimize font size for your lyrics
 
-## Tips
+### Workflow Tips:
+- Clean lyrics first before adjusting styling (use the 🧹 Clean button)
+- Save your project after setup to preserve all settings
+- Preview with audio playback before exporting
+- Use the full-screen viewer (📖 View) to check all lyrics before export
 
-- Use high-resolution background images (1920x1080 or larger) for best quality
-- For long songs, consider increasing visible lines to reduce scroll speed
-- Test different scroll speeds with the speed modifier slider
-- Enable text shadow for better readability over complex backgrounds
-- Use background blur to make text more prominent
+### Troubleshooting:
+- If export fails halfway, try reloading the page and loading your saved project
+- Use lower quality presets (Fast/Balanced) for faster, more reliable exports
+- Ensure your audio file is accessible before starting export
 
 ## Browser Compatibility
 
-Works best in modern browsers:
-- Chrome/Edge (recommended)
-- Firefox
-- Safari
+**Recommended**: Chrome/Edge (best performance and compatibility)
 
-Note: Video export uses WebM format which may not be supported in all browsers. Chrome/Edge recommended for export.
+Also works in:
+- Firefox (may have slower export speeds)
+- Safari (limited FFmpeg support)
+
+**Note**: MP4 export uses FFmpeg.wasm which works best in Chromium-based browsers.
 
 ## License
 
